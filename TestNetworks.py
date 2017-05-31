@@ -27,8 +27,11 @@ def testNet(n):
         G.add_nodes_from(range(1,17))
         G.add_edges_from([(1,16),(16,5),(5,6),(6,7),(7,8),(8,5),(16,9),(9,6),(9,10),(10,11),(11,10),(9,12),(16,13),(13,9),(13,14),(14,15),(15,13),(2,13),(2,3),(2,4)])
         return G
+    elif n == 100:
+        G = nx.read_graphml('elegansGraphML.txt',node_type=int)
+        return G
     else:
-        print('Bad Input')
+        print('Bad Input; please input an integer from 1-5 or 100 (large C elegans connectome)')
         return
     
 
