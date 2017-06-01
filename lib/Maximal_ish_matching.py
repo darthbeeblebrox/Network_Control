@@ -39,7 +39,7 @@ def maximal_ish_matching(G,num_matches=10,tol=0.1,max_remove_nodes=1):
     
     while True:
         G2 = G.copy()
-        G2.remove_node(node_list[0])
+        G2.remove_node(node_list[this_node])
         thismatch = nx.bipartite.hopcroft_karp_matching(G2)
         #Check if this is valid
         if (len(thismatch)>tol_num) and (not thismatch in all_matches):
@@ -55,7 +55,9 @@ def maximal_ish_matching(G,num_matches=10,tol=0.1,max_remove_nodes=1):
                 # Note that we want to randomize this list!
                 this_remove_nodes+=1
                 from itertools import combinations
-                from random import shuffle
+                import random
+                SEED = 4242
+                random.seed(SEED)
                 node_list = combinations(range(min_node,max_node),this_remove_nodes)
                 node_list = shuffle(node_list)
                 this_node = 0
