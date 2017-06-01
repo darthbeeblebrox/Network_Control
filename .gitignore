@@ -1,2 +1,5 @@
 # Jupyter checkpoints (autosaves)
 *checkpoint.ipynb
+
+#Cache files
+*/__pycache__/*
