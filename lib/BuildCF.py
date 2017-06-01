@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[4]:
+# In[2]:
 
 # Builds the minimum input control configuration (CF) from a given maximum matching
 # Inputs are:
@@ -10,10 +10,11 @@
 
 # The procedure for this function is depicted schematically in Wang (2012) Fig. 2
 
+import networkx as nx
+import numpy as np
 
 def BuildCF(G,MM):
-    import networkx as nx
-    import numpy as np
+    
 
     matching = MM.edges()
     zz = list(zip(*matching)) #split tuple list into "out" list and "in" list (just MM links)
@@ -127,7 +128,7 @@ def BuildCF(G,MM):
     return cacti
 
 
-# In[47]:
+# In[3]:
 
 def downstreamCactus(cacti, N):
     # arguments are dict of cacti and node index
@@ -194,71 +195,11 @@ def downstreamCactus(cacti, N):
                             downCact.add_edge(CoutNodes[nEdge],CinNodes[nEdge])
                 iIter += 1
             return downCact
-    
+#     print("Node doesn't appear in any cactus!")
+#     print("Node: ", N)
+#     print("Cacti: ", cacti)
     raise ValueError("Node doesn't appear in any cactus!")
             
                     
                     
-
-
-# In[12]:
-
-def drawCactus(G,C):
-    # draw a cactus (G is full digraph, C is cactus graph)
-    # draws cactus in red, rest of G in black
-    import networkx as nx
-    import matplotlib.pyplot as plt
-    
-    # Specify the edges you want here
-    red_edges = C.edges()
-    edge_colors = ['black' if not edge in red_edges else 'red'
-                    for edge in G.edges()]
-    black_edges = [edge for edge in G.edges() if edge not in red_edges]
-    
-    node_colors = ['black' if not n in C.nodes() else 'red' for n in G.nodes()]
-            
-
-    # Need to create a layout when doing
-    # separate calls to draw nodes and edges
-    pos = nx.spring_layout(G)
-    nx.draw_networkx_nodes(G, pos, cmap=plt.get_cmap('jet'), node_color = node_colors)
-    nx.draw_networkx_edges(G, pos, edgelist=red_edges, edge_color='r', arrows=True)
-    nx.draw_networkx_edges(G, pos, edgelist=black_edges, arrows=False)
-    nx.draw_networkx_labels(G,pos,font_size=20,font_family='sans-serif')
-    plt.axis('off')
-    plt.show()
-
-
-# In[48]:
-
-# Test the function on the sample graph from Wang's paper (using the specific maximum matching depicted)
-import TestNetworks as TN
-import matplotlib.pyplot as plt
-import networkx as nx
-import numpy as np
-
-G = TN.testNet(4)
-MM = nx.DiGraph()
-MM.add_nodes_from(range(1,17))
-MM.add_edges_from([(1,16),(16,9),(9,12),(5,6),(6,7),(7,8),(8,5),(2,3),(13,14),(14,15),(15,13),(10,11),(11,10)])
-
-cacti = BuildCF(G,MM)
-# for j in range(len(cacti)):
-#     print("Cactus ", j, ":")
-#     drawCactus(G,cacti[j])
-
-for n in G.nodes():
-    dsc = downstreamCactus(cacti,n)
-    print("Downstream of node ", n, ":")
-    drawCactus(G,dsc)
-
-
-# In[80]:
-
-
-
-
-# In[ ]:
-
-
 
